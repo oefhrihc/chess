@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111714" />
+
+    <title>Stockfish Trainer</title>
+
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="brand">
+          <div class="brand-icon">♞</div>
+
+          <div>
+            <h1>Stockfish Trainer</h1>
+            <p>Play. Analyse. Improve.</p>
+          </div>
+        </div>
+
+        <div class="engine-indicator">
+          <span class="status-dot"></span>
+          <span id="engine-status">Loading Stockfish...</span>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="game-panel">
+          <div class="player-row">
+            <div class="avatar engine-avatar">♟</div>
+
+            <div class="player-info">
+              <strong>Stockfish</strong>
+              <span id="opponent-rating">1800 ELO</span>
+            </div>
+
+            <span class="player-tag">COMPUTER</span>
+          </div>
+
+          <div id="board" class="board" aria-label="Chess board"></div>
+
+          <div class="player-row">
+            <div class="avatar user-avatar">♙</div>
+
+            <div class="player-info">
+              <strong>You</strong>
+              <span>White</span>
+            </div>
+
+            <span class="player-tag">PLAYER</span>
+          </div>
+
+          <div class="game-footer">
+            <span id="game-status" role="status">
+              Loading chess engine...
+            </span>
+
+            <button id="retry-engine" hidden>Retry engine move</button>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="card settings-card">
+            <div class="section-heading">
+              <h2>Opponent settings</h2>
+            </div>
+
+            <label for="elo-select"> Stockfish strength </label>
+
+            <select id="elo-select">
+              <option value="1320">1320 ELO</option>
+              <option value="1500">1500 ELO</option>
+              <option value="1800" selected>1800 ELO</option>
+              <option value="2000">2000 ELO</option>
+              <option value="2200">2200 ELO</option>
+              <option value="2500">2500 ELO</option>
+              <option value="2800">2800 ELO</option>
+              <option value="3190">3190 ELO</option>
+              <option value="max">Unrestricted</option>
+            </select>
+
+            <p class="help-text">
+              Choose the approximate engine strength. This is Stockfish's engine
+              rating target, not a guaranteed human rating.
+            </p>
+
+            <section class="card rating-card">
+              <div class="section-heading">
+                <h2>Your estimated rating</h2>
+                <span class="live-label">LIVE</span>
+              </div>
+
+              <div class="rating-display">
+                <span id="player-rating">---</span>
+                <span class="rating-unit">ELO</span>
+              </div>
+
+              <div id="rating-confidence" class="rating-confidence">
+                Waiting for your moves
+              </div>
+
+              <div class="rating-progress">
+                <div id="rating-bar-fill"></div>
+              </div>
+
+              <div class="rating-stats">
+                <div>
+                  <strong id="rating-acpl">--</strong>
+                  <span>Average CPL</span>
+                </div>
+
+                <div>
+                  <strong id="rating-moves">0</strong>
+                  <span>Moves analysed</span>
+                </div>
+              </div>
+
+              <p id="rating-description" class="help-text">
+                Play at least 3 moves to generate an estimate.
+              </p>
+            </section>
+
+            <div class="game-actions">
+              <button id="new-game" class="primary-button">New game</button>
+
+              <button id="takeback" class="secondary-button" disabled>
+                ↶ Take back
+              </button>
+            </div>
+          </section>
+
+          <section class="card review-card">
+            <div class="section-heading">
+              <h2>Move analysis</h2>
+              <span class="live-label">LIVE</span>
+            </div>
+
+            <div id="last-review" class="review-empty">
+              <div class="empty-icon">♙</div>
+
+              <strong>No moves analysed yet</strong>
+
+              <p>
+                Your moves will be evaluated automatically after you play them.
+              </p>
+            </div>
+          </section>
+
+          <section class="card moves-card">
+            <div class="section-heading">
+              <h2>Your moves</h2>
+            </div>
+
+            <ol id="move-list" class="move-list">
+              <li class="empty-moves">Your move history will appear here.</li>
+            </ol>
+          </section>
+        </aside>
+      </main>
+
+      <!-- Game over overlay -->
+      <div id="game-over-overlay" class="game-over-overlay" hidden>
+        <section
+          class="game-over-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="game-over-title"
+        >
+          <div id="game-over-icon" class="game-over-icon">♔</div>
+
+          <div class="game-over-eyebrow">GAME OVER</div>
+
+          <h2 id="game-over-title">Checkmate!</h2>
+
+          <p id="game-over-description">The game has ended.</p>
+
+          <div class="game-over-summary">
+            <div>
+              <span>Result</span>
+              <strong id="game-over-result">1–0</strong>
+            </div>
+
+            <div>
+              <span>Moves played</span>
+              <strong id="game-over-moves">0</strong>
+            </div>
+          </div>
+
+          <div class="game-over-actions">
+            <button id="game-over-takeback" class="secondary-button">
+              ↶ Take back
+            </button>
+
+            <button id="game-over-new-game" class="primary-button">
+              New game
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">Stockfish 19 · Powered by WebAssembly</footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
