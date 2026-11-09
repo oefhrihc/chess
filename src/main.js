@@ -9,7 +9,17 @@ const ANALYSIS_DEPTH = 12;
 const PLAY_DEPTH = 10;
 
 const HUMAN_COLOR = "w";
-const BASE_URL = import.meta.env.BASE_URL;
+// main.js is served from /src in a branch deployment and /assets in a Vite build.
+// In both cases, its parent directory is the deployed project root.
+const BASE_URL = new URL("../", import.meta.url).href;
+
+// Vite builds define this as an empty string and copy public assets to dist root.
+// A branch-based Pages publish serves the original files from /public instead.
+const ASSET_PREFIX =
+  typeof __PUBLIC_ASSET_PREFIX__ === "string"
+    ? __PUBLIC_ASSET_PREFIX__
+    : "public/";
+const ASSET_BASE_URL = new URL(ASSET_PREFIX, BASE_URL).href;
 
 const PIECE_NAMES = {
   k: "king",
@@ -31,7 +41,9 @@ const FILES = "abcdefgh";
 
 const chess = new Chess();
 
-const engine = new StockfishEngine(`${BASE_URL}stockfish/stockfish-19-lite-single.js`);
+const engine = new StockfishEngine(
+  `${ASSET_BASE_URL}stockfish/stockfish-19-lite-single.js`,
+);
 
 const boardElement = document.querySelector("#board");
 
@@ -199,7 +211,7 @@ function renderBoard({ animateMove = false } = {}) {
 
           image.className = "piece-image";
 
-          image.src = `${BASE_URL}pieces/${pieceCode}.svg`;
+          image.src = `${ASSET_BASE_URL}pieces/${pieceCode}.svg`;
 
           image.alt =
             `${piece.color === "w" ? "White" : "Black"} ` +

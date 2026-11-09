@@ -7,7 +7,15 @@
 
     <title>Stockfish Trainer</title>
 
-    <link rel="stylesheet" href="/src/style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "chess.js": "https://esm.sh/chess.js@1.4.0"
+        }
+      }
+    </script>
+
+    <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
     <div class="app">
@@ -204,6 +212,6 @@
       <footer class="footer">Stockfish 19 · Powered by WebAssembly</footer>
     </div>
 
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>
