@@ -9,6 +9,7 @@ const ANALYSIS_DEPTH = 12;
 const PLAY_DEPTH = 10;
 
 const HUMAN_COLOR = "w";
+const BASE_URL = import.meta.env.BASE_URL;
 
 const PIECE_NAMES = {
   k: "king",
@@ -30,7 +31,7 @@ const FILES = "abcdefgh";
 
 const chess = new Chess();
 
-const engine = new StockfishEngine("/stockfish/stockfish-19-lite-single.js");
+const engine = new StockfishEngine(`${BASE_URL}stockfish/stockfish-19-lite-single.js`);
 
 const boardElement = document.querySelector("#board");
 
@@ -198,7 +199,7 @@ function renderBoard({ animateMove = false } = {}) {
 
           image.className = "piece-image";
 
-          image.src = `/pieces/${pieceCode}.svg`;
+          image.src = `${BASE_URL}pieces/${pieceCode}.svg`;
 
           image.alt =
             `${piece.color === "w" ? "White" : "Black"} ` +
