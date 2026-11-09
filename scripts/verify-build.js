@@ -39,11 +39,11 @@ function resolveBuiltAsset(reference) {
   return resolve(outputDirectory, pathname.slice("/chess/".length));
 }
 
-const stylesheetTags = [...html.matchAll(/<link\\b[^>]*>/gi)]
+const stylesheetTags = [...html.matchAll(/<link\b[^>]*>/gi)]
   .map(([tag]) => tag)
   .filter((tag) => getAttribute(tag, "rel")?.toLowerCase() === "stylesheet");
 
-const scriptTags = [...html.matchAll(/<script\\b[^>]*>/gi)]
+const scriptTags = [...html.matchAll(/<script\b[^>]*>/gi)]
   .map(([tag]) => tag)
   .filter((tag) =>
     getAttribute(tag, "type")?.toLowerCase() === "module" &&
